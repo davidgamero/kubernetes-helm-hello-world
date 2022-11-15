@@ -1,4 +1,11 @@
-FROM busybox
-ADD app/index.html /www/index.html
-EXPOSE 80
-CMD httpd -p 80 -h /www; tail -f /dev/null
+FROM node:
+ENV PORT 8080
+EXPOSE 8080
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY package.json .
+RUN npm install
+COPY . .
+
+CMD ["npm", "start"]
